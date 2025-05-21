@@ -1,0 +1,46 @@
+-------------------- CRIAÇÃO DE TABELA FÍSICA PARA RELATÓRIO DE VENDAS --------------------
+
+-- Criando uma nova tabela física para consolidar os dados da TB_VENDAS
+CREATE TABLE RELATORIO_NOVO
+(
+	FILIAL			INT,
+	TICKET			INT,
+	DATA			DATE,
+	CLIENTE			VARCHAR(255),
+	COLABORADOR		VARCHAR(255),
+	QUANTIDADE		INT,
+	VENDA			DECIMAL(18,2),
+	PAGO			DECIMAL(18,2),		
+	CANCELADO		DECIMAL(18,2)
+);
+
+-- Inserindo os dados da tabela TB_VENDAS na nova estrutura de relatório
+INSERT INTO RELATORIO_NOVO
+SELECT 
+	LOJA,           -- FILIAL
+	CUPOM,          -- TICKET
+	DATA,           
+	COD_CLIENTE,    -- CLIENTE
+	VENDEDOR,       -- COLABORADOR
+	QUANTIDADE,     
+	VALOR_VENDA,    
+	VALOR_PAGO,     
+	VALOR_CANCELADO 
+FROM TB_VENDAS;
+
+-- Verificando os dados inseridos
+SELECT *
+FROM RELATORIO_NOVO;
+
+
+-------------------- CRIAÇÃO DE VIEW PARA CONSULTA DE RELATÓRIO --------------------
+
+-- Criando uma view para facilitar o acesso aos dados do relatório
+CREATE VIEW VW_RELATORIO AS 
+SELECT 
+	FILIAL, TICKET, DATA, CLIENTE, COLABORADOR, QUANTIDADE, VENDA, PAGO, CANCELADO
+FROM RELATORIO_NOVO;
+
+-- Consultando a view
+SELECT *
+FROM VW_RELATORIO;
